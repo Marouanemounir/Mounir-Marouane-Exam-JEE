@@ -1,0 +1,113 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>Gestion des Contrats <span *ngIf="clientIdFilter">(Client #{{ clientIdFilter }})</span></h2>
+    <a routerLink="/contrats/new" class="btn btn-primary">Nouveau Contrat</a>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn" [class.active]="activeTab === 'AUTO'" (click)="setTab('AUTO')">Automobile</button>
+    <button class="tab-btn" [class.active]="activeTab === 'HABITATION'" (click)="setTab('HABITATION')">Habitation</button>
+    <button class="tab-btn" [class.active]="activeTab === 'SANTE'" (click)="setTab('SANTE')">Santé</button>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="text-center p-4">Chargement...</div>
+
+    <!-- TABLEAU AUTO -->
+    <table class="table" *ngIf="!loading && activeTab === 'AUTO'">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Client ID</th>
+          <th>Date</th>
+          <th>Véhicule</th>
+          <th>Immatriculation</th>
+          <th>Cotisation</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of contratsAuto">
+          <td>{{ c.id }}</td>
+          <td>{{ c.clientId }}</td>
+          <td>{{ c.dateSouscription | date }}</td>
+          <td>{{ c.marque }} {{ c.modele }}</td>
+          <td>{{ c.numeroImmatriculation }}</td>
+          <td>{{ c.montantCotisation }} MAD</td>
+          <td><span class="badge" [ngClass]="getBadgeClass(c.statut)">{{ c.statut }}</span></td>
+          <td class="actions">
+            <button *ngIf="c.statut === 'EN_COURS'" (click)="validerContrat(c.id)" class="btn btn-sm btn-success">Valider</button>
+            <button *ngIf="c.statut === 'VALIDE'" (click)="resilierContrat(c.id)" class="btn btn-sm btn-danger">Résilier</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- TABLEAU HABITATION -->
+    <table class="table" *ngIf="!loading && activeTab === 'HABITATION'">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Client ID</th>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Adresse</th>
+          <th>Cotisation</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of contratsHabitation">
+          <td>{{ c.id }}</td>
+          <td>{{ c.clientId }}</td>
+          <td>{{ c.dateSouscription | date }}</td>
+          <td>{{ c.typeLogement }}</td>
+          <td>{{ c.adresse }}</td>
+          <td>{{ c.montantCotisation }} MAD</td>
+          <td><span class="badge" [ngClass]="getBadgeClass(c.statut)">{{ c.statut }}</span></td>
+          <td class="actions">
+            <button *ngIf="c.statut === 'EN_COURS'" (click)="validerContrat(c.id)" class="btn btn-sm btn-success">Valider</button>
+            <button *ngIf="c.statut === 'VALIDE'" (click)="resilierContrat(c.id)" class="btn btn-sm btn-danger">Résilier</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- TABLEAU SANTE -->
+    <table class="table" *ngIf="!loading && activeTab === 'SANTE'">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Client ID</th>
+          <th>Date</th>
+          <th>Niveau</th>
+          <th>Personnes couvertes</th>
+          <th>Cotisation</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of contratsSante">
+          <td>{{ c.id }}</td>
+          <td>{{ c.clientId }}</td>
+          <td>{{ c.dateSouscription | date }}</td>
+          <td>{{ c.niveauCouverture }}</td>
+          <td>{{ c.nombrePersonnesCouvertes }}</td>
+          <td>{{ c.montantCotisation }} MAD</td>
+          <td><span class="badge" [ngClass]="getBadgeClass(c.statut)">{{ c.statut }}</span></td>
+          <td class="actions">
+            <button *ngIf="c.statut === 'EN_COURS'" (click)="validerContrat(c.id)" class="btn btn-sm btn-success">Valider</button>
+            <button *ngIf="c.statut === 'VALIDE'" (click)="resilierContrat(c.id)" class="btn btn-sm btn-danger">Résilier</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!loading && ((activeTab === 'AUTO' && contratsAuto.length === 0) || (activeTab === 'HABITATION' && contratsHabitation.length === 0) || (activeTab === 'SANTE' && contratsSante.length === 0))" class="empty-state">
+      Aucun contrat de ce type trouvé.
+    </div>
+  </div>
+</div>

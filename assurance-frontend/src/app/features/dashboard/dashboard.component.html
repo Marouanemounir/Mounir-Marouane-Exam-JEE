@@ -1,0 +1,40 @@
+<div class="dashboard-container">
+  <div class="welcome-header">
+    <h1>Bienvenue, {{ username }} !</h1>
+    <p>Voici un aperçu de votre activité.</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Chargement des statistiques...</p>
+  </div>
+
+  <div *ngIf="!loading" class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon clients-icon">👥</div>
+      <div class="stat-info">
+        <h3>Clients</h3>
+        <p class="stat-value">{{ totalClients }}</p>
+      </div>
+      <a routerLink="/clients" class="stat-link">Voir tous les clients →</a>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon contrats-icon">📄</div>
+      <div class="stat-info">
+        <h3>Contrats</h3>
+        <p class="stat-value">{{ totalContrats }}</p>
+      </div>
+      <a routerLink="/contrats" class="stat-link">Voir tous les contrats →</a>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon paiements-icon">💳</div>
+      <div class="stat-info">
+        <h3>Paiements</h3>
+        <p class="stat-value">{{ totalPaiements }}</p>
+      </div>
+      <a routerLink="/paiements" class="stat-link">Voir tous les paiements →</a>
+    </div>
+  </div>
+</div>

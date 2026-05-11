@@ -1,0 +1,38 @@
+<div class="page-container">
+  <div class="form-card">
+    <div class="form-header">
+      <h2>{{ isEditMode ? 'Modifier le Client' : 'Nouveau Client' }}</h2>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="nom">Nom complet</label>
+        <input type="text" id="nom" formControlName="nom" class="form-control" placeholder="Entrez le nom du client" />
+        <div *ngIf="clientForm.get('nom')?.invalid && clientForm.get('nom')?.touched" class="text-danger">
+          Le nom est requis.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Adresse Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control" placeholder="exemple@email.com" />
+        <div *ngIf="clientForm.get('email')?.invalid && clientForm.get('email')?.touched" class="text-danger">
+          <span *ngIf="clientForm.get('email')?.errors?.['required']">L'email est requis.</span>
+          <span *ngIf="clientForm.get('email')?.errors?.['email']">Format d'email invalide.</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" routerLink="/clients">Annuler</button>
+        <button type="submit" class="btn btn-primary" [disabled]="clientForm.invalid || loading">
+          <span *ngIf="loading" class="spinner"></span>
+          <span *ngIf="!loading">Enregistrer</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

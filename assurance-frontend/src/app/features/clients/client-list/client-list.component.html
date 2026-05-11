@@ -1,0 +1,35 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>Gestion des Clients</h2>
+    <a routerLink="/clients/new" class="btn btn-primary">Nouveau Client</a>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients$ | async">
+          <td>{{ client.id }}</td>
+          <td>{{ client.nom }}</td>
+          <td>{{ client.email }}</td>
+          <td class="actions">
+            <a [routerLink]="['/contrats']" [queryParams]="{ clientId: client.id }" class="btn btn-sm btn-info" title="Voir contrats">📄</a>
+            <a [routerLink]="['/clients/edit', client.id]" class="btn btn-sm btn-warning" title="Modifier">✏️</a>
+            <button (click)="deleteClient(client.id)" class="btn btn-sm btn-danger" title="Supprimer">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div *ngIf="(clients$ | async)?.length === 0" class="empty-state">
+      Aucun client trouvé.
+    </div>
+  </div>
+</div>

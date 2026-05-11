@@ -1,0 +1,45 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>Gestion des Paiements</h2>
+    <a routerLink="/paiements/new" class="btn btn-primary">Nouveau Paiement</a>
+  </div>
+
+  <div class="filter-bar">
+    <label for="typeFilter">Filtrer par type :</label>
+    <select id="typeFilter" class="form-control" (change)="onFilterChange($event)">
+      <option value="ALL">Tous les paiements</option>
+      <option value="MENSUALITE">Mensualité</option>
+      <option value="PAIEMENT_ANNUEL">Paiement Annuel</option>
+      <option value="PAIEMENT_EXCEPTIONNEL">Paiement Exceptionnel</option>
+    </select>
+  </div>
+
+  <div class="table-container">
+    <div *ngIf="loading" class="text-center p-4">Chargement...</div>
+
+    <table class="table" *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Contrat ID</th>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Montant</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredPaiements">
+          <td>{{ p.id }}</td>
+          <td>{{ p.contratId }}</td>
+          <td>{{ p.date | date }}</td>
+          <td><span class="badge" [ngClass]="getBadgeClass(p.type)">{{ p.type }}</span></td>
+          <td class="montant">{{ p.montant }} MAD</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!loading && filteredPaiements.length === 0" class="empty-state">
+      Aucun paiement trouvé.
+    </div>
+  </div>
+</div>

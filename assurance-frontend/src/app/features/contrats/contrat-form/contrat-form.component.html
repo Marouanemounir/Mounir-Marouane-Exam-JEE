@@ -1,0 +1,122 @@
+<div class="page-container">
+  <div class="form-card">
+    <div class="form-header">
+      <h2>Nouveau Contrat</h2>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <form [formGroup]="contratForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Type de contrat -->
+      <div class="form-group">
+        <label for="typeContrat">Type de Contrat</label>
+        <select id="typeContrat" class="form-control" (change)="onTypeChange($event)">
+          <option value="AUTO">Automobile</option>
+          <option value="HABITATION">Habitation</option>
+          <option value="SANTE">Santé</option>
+        </select>
+      </div>
+
+      <!-- Champs communs -->
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label for="clientId">Client ID</label>
+          <input type="number" id="clientId" formControlName="clientId" class="form-control" />
+        </div>
+        
+        <div class="form-group half-width">
+          <label for="dateSouscription">Date de Souscription</label>
+          <input type="date" id="dateSouscription" formControlName="dateSouscription" class="form-control" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label for="montantCotisation">Montant Cotisation (MAD)</label>
+          <input type="number" id="montantCotisation" formControlName="montantCotisation" class="form-control" />
+        </div>
+        
+        <div class="form-group half-width">
+          <label for="dureeContrat">Durée (mois)</label>
+          <input type="number" id="dureeContrat" formControlName="dureeContrat" class="form-control" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="tauxCouverture">Taux de Couverture (%)</label>
+        <input type="number" id="tauxCouverture" formControlName="tauxCouverture" class="form-control" />
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Champs spécifiques AUTO -->
+      <ng-container *ngIf="typeContrat === 'AUTO'">
+        <div class="form-group">
+          <label for="numeroImmatriculation">Immatriculation</label>
+          <input type="text" id="numeroImmatriculation" formControlName="numeroImmatriculation" class="form-control" />
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label for="marque">Marque</label>
+            <input type="text" id="marque" formControlName="marque" class="form-control" />
+          </div>
+          <div class="form-group half-width">
+            <label for="modele">Modèle</label>
+            <input type="text" id="modele" formControlName="modele" class="form-control" />
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Champs spécifiques HABITATION -->
+      <ng-container *ngIf="typeContrat === 'HABITATION'">
+        <div class="form-group">
+          <label for="typeLogement">Type de Logement</label>
+          <select id="typeLogement" formControlName="typeLogement" class="form-control">
+            <option value="APPARTEMENT">Appartement</option>
+            <option value="MAISON">Maison</option>
+            <option value="LOCAL_COMMERCIAL">Local Commercial</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="adresse">Adresse</label>
+          <input type="text" id="adresse" formControlName="adresse" class="form-control" />
+        </div>
+        
+        <div class="form-group">
+          <label for="superficie">Superficie (m²)</label>
+          <input type="number" id="superficie" formControlName="superficie" class="form-control" />
+        </div>
+      </ng-container>
+
+      <!-- Champs spécifiques SANTE -->
+      <ng-container *ngIf="typeContrat === 'SANTE'">
+        <div class="form-group">
+          <label for="niveauCouverture">Niveau de Couverture</label>
+          <select id="niveauCouverture" formControlName="niveauCouverture" class="form-control">
+            <option value="BASIQUE">Basique</option>
+            <option value="INTERMEDIAIRE">Intermédiaire</option>
+            <option value="PREMIUM">Premium</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="nombrePersonnesCouvertes">Personnes Couvertes</label>
+          <input type="number" id="nombrePersonnesCouvertes" formControlName="nombrePersonnesCouvertes" class="form-control" />
+        </div>
+      </ng-container>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" routerLink="/contrats">Annuler</button>
+        <button type="submit" class="btn btn-primary" [disabled]="contratForm.invalid || loading">
+          <span *ngIf="loading" class="spinner"></span>
+          <span *ngIf="!loading">Enregistrer</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
